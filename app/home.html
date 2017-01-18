@@ -1,7 +1,7 @@
 <div ng-controller="HomeController as home">
-    <div ng-repeat="row in home.rows">
+    <div ng-repeat="row in home.grid track by $index">
         <div class="btn-group btn-group-lg" role="group" aria-label="Large button group"> 
-            <my-button ng-repeat="col in home.cols"></my-button>
+            <my-button ng-repeat="col in row track by $index"></my-button>
         </div>
         <br/>
     </div>

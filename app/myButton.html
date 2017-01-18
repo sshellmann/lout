@@ -1,3 +1,4 @@
 <button ng-controller="MyButtonController as mybutton"
-    ng-click="mybutton.toggle()" ng-class="{'btn-danger': mybutton.lit}"
+    ng-class="{'btn-danger': col}"
+    ng-click="mybutton.toggle(home.grid, $parent.$parent.$index, $index)"
     type="button" class="btn btn-default"></button> 

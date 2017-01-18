@@ -6,6 +6,18 @@ import myButton from './myButton'
 import homehtml from './home.html'
 
 
+function initArray(rowCount, colCount) {
+    var grid = new Array(rowCount);
+    range(rowCount).forEach(function(rowIdx) {
+        grid[rowIdx] = new Array(colCount);
+        range(colCount).forEach(function(colIdx) {
+            // grid[rowIdx][colIdx] = Math.random() >= 0.5;
+            grid[rowIdx][colIdx] = false;
+        });
+    });
+    return grid;
+}
+
 var routes = ['$stateProvider', function ($stateProvider) {
     $stateProvider.state('home', {
         url: '/',
@@ -15,13 +27,18 @@ var routes = ['$stateProvider', function ($stateProvider) {
 }];
 
 class HomeController {
-    constructor() {
-        this.rows = range(4);
-        this.cols = range(4);
+    constructor($timeout) {
+        this.grid = initArray(5, 5);
+        // Lose in 10 minutes
+        $timeout(this.lose, 600000)
+    }
+
+    lose() {
+        alert("YOU LOSE");
     }
 }
 
 export default angular.module('app.home', [uirouter, myButton])
     .config(routes)
-    .controller('HomeController', [HomeController])
+    .controller('HomeController', ['$timeout', HomeController])
     .name;
