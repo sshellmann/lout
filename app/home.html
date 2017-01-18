@@ -1,0 +1,8 @@
+<div ng-controller="HomeController as home">
+    <div ng-repeat="row in home.rows">
+        <div class="btn-group btn-group-lg" role="group" aria-label="Large button group"> 
+            <my-button ng-repeat="col in home.cols"></my-button>
+        </div>
+        <br/>
+    </div>
+<div>

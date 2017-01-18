@@ -1,0 +1,31 @@
+{
+  "name": "lout",
+  "version": "1.0.0",
+  "description": "Light's Out game",
+  "main": "app.js",
+  "scripts": {
+    "dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base='./dist' --no-info"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.6.1",
+    "angular-ui-router": "^0.3.2",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "bootstrap": "^3.3.7",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.26.0",
+    "lodash.range": "^3.2.0",
+    "raw-loader": "^0.5.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.14.0"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^1.16.2",
+    "css-loader": "^0.26.1",
+    "style-loader": "^0.13.1"
+  }
+}
