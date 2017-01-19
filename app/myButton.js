@@ -1,25 +1,16 @@
 import angular from 'angular';
 import mybuttonhtml from './myButton.html'
 
+import GAMETIME from './home'
 
-function checkVictory(grid) {
-    var success = true;
-    grid.forEach(function(row) {
-        row.forEach(function(col) {
-            success = success && col;
-        });
-    });
-    if (success) {
-        setTimeout(function() {alert("Success!");}, 1000);
-    }
-}
 
 function flip(grid, rowIdx, colIdx) {
     grid[rowIdx][colIdx] = !grid[rowIdx][colIdx];
 }
 
 class MyButtonController {
-    constructor() {
+    constructor($rootScope) {
+        this.rootScope = $rootScope;
     }
 
     toggle(grid, rowIdx, colIdx) {
@@ -40,12 +31,28 @@ class MyButtonController {
         if (rowIdx < grid[0].length-1) {
             flip(grid, rowIdx+1, colIdx);
         }
-        checkVictory(grid);
+        this.checkVictory(grid);
+    }
+
+    checkVictory(grid) {
+        if (!this.rootScope.failure) {
+            var success = true;
+            grid.forEach(function(row) {
+                row.forEach(function(col) {
+                    success = success && col;
+                });
+            });
+            if (success) {
+                this.rootScope.victory = true;
+                this.rootScope.interval.cancel(this.rootScope.timerId);
+                this.rootScope.timerId = null;
+            }
+        }
     }
 }
 
 export default angular.module('app.mybutton', [])
-    .controller('MyButtonController', ['$scope', MyButtonController])
+    .controller('MyButtonController', ['$rootScope', MyButtonController])
     .directive('myButton', function() {
         return {
             template: mybuttonhtml

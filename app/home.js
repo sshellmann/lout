@@ -1,9 +1,10 @@
 import angular from 'angular';
 import range from 'lodash.range';
-import uirouter from 'angular-ui-router';
 
 import myButton from './myButton'
-import homehtml from './home.html'
+
+
+const GAMETIME = 30000
 
 
 function initArray(rowCount, colCount) {
@@ -18,27 +19,42 @@ function initArray(rowCount, colCount) {
     return grid;
 }
 
-var routes = ['$stateProvider', function ($stateProvider) {
-    $stateProvider.state('home', {
-        url: '/',
-        template: homehtml,
-        controller: 'HomeController'
-    });
-}];
-
 class HomeController {
-    constructor($timeout) {
-        this.grid = initArray(5, 5);
-        // Lose in 10 minutes
-        $timeout(this.lose, 600000)
+    constructor($interval, $scope, $rootScope) {
+        this.rootScope = $rootScope;
+        this.scope = $scope;
+        this.rootScope.interval = $interval;
+        this.setup();
     }
 
-    lose() {
-        alert("YOU LOSE");
+    setup() {
+        this.rootScope.victory = false;
+        this.rootScope.failure = false;
+        if (this.rootScope.timerId) {
+            this.rootScope.interval.cancel(this.rootScope.timerId);
+            this.rootScope.timerId = null;
+        }
+        this.grid = initArray(5, 5);
+
+        // Lose in 10 minutes
+        this.rootScope.countdownTime = GAMETIME;
+        this.scope.$watch(this.rootScope.countdownTime);
+        this.rootScope.timerId = this.rootScope.interval(this.countdown.bind(this), 1000);
+    }
+
+    countdown() {
+        if (this.rootScope.countdownTime == 1000) {
+            this.rootScope.failure = true;
+            this.rootScope.countdownTime = 0;
+            this.rootScope.interval.cancel(this.rootScope.timerId);
+            this.rootScope.timerId = null;
+        }
+        else if (this.rootScope.countdownTime > 0) {
+            this.rootScope.countdownTime -= 1000;
+        }
     }
 }
 
-export default angular.module('app.home', [uirouter, myButton])
-    .config(routes)
-    .controller('HomeController', ['$timeout', HomeController])
+export default angular.module('app.home', [myButton])
+    .controller('HomeController', ['$interval', '$scope', '$rootScope', HomeController])
     .name;

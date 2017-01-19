@@ -1,13 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.css'
 
 import angular from 'angular';
-import uirouter from 'angular-ui-router';
 import home from './home'
 
-var routing = ['$urlRouterProvider', '$locationProvider', function routing($urlRouterProvider, $locationProvider) {
-    $locationProvider.html5Mode(true);
-    $urlRouterProvider.otherwise('/');
-}];
-
-angular.module('app', [uirouter, home])
-    .config(routing)
+angular.module('app', [home])
+    .filter('secondsToDateTime', function() {
+        return function(seconds) {
+            var d = new Date(0,0,0,0,0,0,0);
+            d.setMilliseconds(seconds);
+            return d;
+        };
+    });

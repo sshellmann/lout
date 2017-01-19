@@ -6,6 +6,27 @@
     <base href="/">
 </head>
 <body>
-    <ui-view></ui-view>
+    <div ng-controller="HomeController as home">
+        <div ng-repeat="row in home.grid track by $index">
+            <div class="btn-group btn-group-lg" role="group" aria-label="Large button group"> 
+                <my-button ng-repeat="col in row track by $index"></my-button>
+            </div>
+            <br/>
+        </div>
+        <span class="h3">
+            <span class="label label-default" ng-if="timerId">
+            {{ countdownTime | secondsToDateTime | date:'mm:ss' }}
+            </span>
+
+            <span class="label label-success" ng-if="victory">
+            Victory! :D
+            </span>
+
+            <span class="label label-danger" ng-if="failure">
+            Failure! :\
+            </span>
+        </span>
+        <button class="btn btn-default" ng-click="home.setup()">Reset</button>
+    <div>
 </body>
 </html>
